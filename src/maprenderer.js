@@ -1,3 +1,5 @@
+import L from 'leaflet';
+
 export default class MapRenderer {
   constructor(center, zoom) {
     this._center = center;

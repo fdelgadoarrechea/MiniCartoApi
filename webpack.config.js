@@ -26,8 +26,11 @@ const config = {
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
+  externals : {
+      leaflet: 'leaflet'
+  },
   module: {
-    rules: [
+   rules: [
       {
         test: /(\.jsx|\.js)$/,
         loader: 'babel-loader',
