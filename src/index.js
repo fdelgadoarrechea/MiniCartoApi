@@ -12,10 +12,6 @@ function validateResponse(response) {
   return response;
 }
 
-function readResponseAsJSON(response) {
-  return response.json();
-}
-
 function renderResult(mapsAPIresponse) {
   let cartoLayer = new CartoTemplate(mapsAPIresponse, config.getUser());
 
@@ -38,4 +34,4 @@ fetch(config.getURL(), {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   }
-}).then(validateResponse).then(readResponseAsJSON).then(renderResult).catch(logError);
+}).then(validateResponse).then((response) => response.json()).then(renderResult).catch(logError);

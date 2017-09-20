@@ -1,4 +1,4 @@
-import L from 'leaflet';
+let L = require('leaflet');
 
 export default class MapRenderer {
   constructor(center, zoom) {

@@ -27,7 +27,7 @@ const config = {
     umdNamedDefine: true
   },
   externals : {
-      leaflet: 'leaflet'
+      leaflet: 'L'
   },
   module: {
    rules: [
