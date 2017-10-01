@@ -3,35 +3,52 @@ import ConfigReader from './configreader.js';
 import CartoTemplate from './cartotemplate.js';
 import MapRenderer from './maprenderer.js';
 
-let config = new ConfigReader(mapconfig);
+class CartoTest {
+  constructor() {
+    this.config = new ConfigReader(mapconfig);
 
-function validateResponse(response) {
-  if (!response.ok) {
-    throw Error(response.statusText);
+    this.renderer = new MapRenderer(this.config.getCenter(), this.config.getZoom());
+    this.renderer.renderMap('mapid');
+
+    this.cartoLayer = '';
+
+    this.initAll();
+
   }
-  return response;
-}
 
-function renderResult(mapsAPIresponse) {
-  let cartoLayer = new CartoTemplate(mapsAPIresponse, config.getUser());
+  async initAll() {
+    if (!this.cartoLayer) {
+      this.cartoLayer = new CartoTemplate(this.config.getUser());
+      this.cartoLayer.setMapConfig(this.config.getMapConfig());
+    }
 
-  config.pushCartoLayer(cartoLayer.getTemplateURL());
-  let renderer = new MapRenderer(config.getCenter(), config.getZoom());
+    await this.cartoLayer.generateTemplateURL(this.config.getURL());
 
-  renderer.renderMap('mapid');
-  renderer.renderLayers(config.getLayers());
-}
-
-function logError(error) {
-  console.log('Looks like there was a problem: \n', error);
-}
-
-fetch(config.getURL(), {
-  mode: 'cors',
-  method: 'POST',
-  body: JSON.stringify(config.getMapConfig()),
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    this.showLayers();
   }
-}).then(validateResponse).then((response) => response.json()).then(renderResult).catch(logError);
+
+  showCartoLayer() {
+    this.renderer.renderLayer(this.cartoLayer.getTemplateURL());
+  }
+
+  showLayers() {
+    this.renderer.renderLayers(this.config.getLayers());
+    this.showCartoLayer();
+  }
+
+  setSQL(sql) {
+    this.cartoLayer.setSQL(sql);
+    this.initAll();
+    // this.renderer.destroyLayer();
+  }
+
+  hideLayer(pos) {
+    this.renderer.hideLayer(pos);
+  }
+
+  showLayer(pos) {
+    this.renderer.showLayer(pos);
+  }
+}
+
+module.exports = CartoTest;

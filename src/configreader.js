@@ -44,7 +44,6 @@ export default class ConfigReader {
             'options': element.options
           }]
         };
-        finalLayers.push('CartoDB');
       } else {
         finalLayers.push(element.options.urlTemplate);
       }
@@ -52,19 +51,6 @@ export default class ConfigReader {
     this._mapconfig = cartodblayer;
     this._layers = finalLayers;
     return this._mapconfig;
-  }
-
-  pushCartoLayer(layer) {
-    let finalLayers = [];
-
-    this._layers.forEach(function (element) {
-      if (element === 'CartoDB') {
-        finalLayers.push(layer);
-      } else {
-        finalLayers.push(element);
-      }
-    });
-    this._layers = finalLayers;
   }
 
   getLayers() {

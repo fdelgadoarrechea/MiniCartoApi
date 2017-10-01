@@ -1,7 +1,6 @@
 /* global __dirname, require, module*/
 
-const webpack = require('webpack');
-const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+const MinifyPlugin = require('babel-minify-webpack-plugin');
 const path = require('path');
 const env = require('yargs').argv.env; // use --env with webpack 2
 
@@ -10,7 +9,7 @@ let libraryName = 'CartoTest';
 let plugins = [], outputFile;
 
 if (env === 'build') {
-  plugins.push(new UglifyJsPlugin({ minimize: true }));
+  plugins.push(new MinifyPlugin());
   outputFile = libraryName + '.min.js';
 } else {
   outputFile = libraryName + '.js';
@@ -26,11 +25,11 @@ const config = {
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
-  externals : {
-      leaflet: 'L'
+  externals: {
+    leaflet: 'L'
   },
   module: {
-   rules: [
+    rules: [
       {
         test: /(\.jsx|\.js)$/,
         loader: 'babel-loader',
