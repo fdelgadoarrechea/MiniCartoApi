@@ -1,4 +1,4 @@
-let L = require('leaflet');
+let L = require('leaflet-headless');
 
 export default class MapRenderer {
   constructor(center, zoom) {

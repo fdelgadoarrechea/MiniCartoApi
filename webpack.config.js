@@ -25,9 +25,6 @@ const config = {
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
-  externals: {
-    leaflet: 'L'
-  },
   module: {
     rules: [
       {

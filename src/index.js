@@ -6,14 +6,12 @@ import MapRenderer from './maprenderer.js';
 class CartoTest {
   constructor() {
     this.config = new ConfigReader(mapconfig);
-
-    this.renderer = new MapRenderer(this.config.getCenter(), this.config.getZoom());
-    this.renderer.renderMap('mapid');
-
     this.cartoLayer = '';
 
-    this.initAll();
+    // this.renderer = new MapRenderer(this.config.getCenter(), this.config.getZoom());
+    // this.renderer.renderMap('mapid');
 
+    this.initAll();
   }
 
   async initAll() {

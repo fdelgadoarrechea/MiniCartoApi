@@ -1,20 +1,22 @@
 /* global describe, it, before */
-import chai from 'chai';
-import {CartoTest} from '../lib/CartoTest.js';
+
+var chai = require('chai')
+var L = require('leaflet-headless')
+var CartoTest = require('../lib/CartoTest.js')
 
 chai.expect();
 
 const expect = chai.expect;
 
-let lib;
+let map;
 
 describe('Given an instance of my ConfigReader library', () => {
   before(() => {
-    lib = new CartoTest();
+    map = new CartoTest()
+    config = map.config
   });
-  describe('when I need the zoom', () => {
-    it('should return the zoom', () => {
-      expect(lib.zoom).to.be.equal(4);
-    });
-  });
-});
+
+  it('should return the zoom', () => {
+    expect(config.getZoom()).to.be.equal(4)
+  })
+})
