@@ -1,4 +1,4 @@
-let L = require('leaflet-headless');
+let L = require('leaflet');
 
 export default class MapRenderer {
   constructor(center, zoom) {
@@ -8,6 +8,10 @@ export default class MapRenderer {
     this._currentMap = '';
     this._layers = [];
     this._layer = '';
+  }
+
+  getCurrentMap() {
+    return this._currentMap;
   }
 
   renderMap(divid) {

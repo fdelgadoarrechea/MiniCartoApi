@@ -2,17 +2,32 @@ export default class ConfigReader {
   constructor(config) {
     this._config = config;
     this._url = '';
-    this._mapconfig = '';
     this._user = '';
-    this._layers = [];
+    this._lat = 0;
+    this._lng = 0;
     this._center = config.center;
     this._zoom = config.zoom;
+    this.setCenter();
+  }
+
+  setCenter() {
+    let center = this._center;
+    let latlng = center.slice(1, -1).split(',');
+
+    this._lat = parseFloat(latlng[0]);
+    this._lng = parseFloat(latlng[1]);
+    this._center = latlng;
+  }
+
+  getLat() {
+    return this._lat;
+  }
+
+  getLng() {
+    return this._lng;
   }
 
   getCenter() {
-    let center = this._center;
-
-    this._center = center.slice(1, -1).split(',');
     return this._center;
   }
 
@@ -30,31 +45,20 @@ export default class ConfigReader {
     return this._url;
   }
 
-  getMapConfig() {
+  getCartoLayer() {
     let layers = this._config.layers;
-    let finalLayers = [];
-    let cartodblayer = '';
+    let cartoLayer;
 
     layers.forEach(function (element) {
       if (element.type === 'CartoDB') {
-        cartodblayer = {
-          'version': '1.3.1',
-          'layers': [{
-            'type': 'cartodb',
-            'options': element.options
-          }]
-        };
-      } else {
-        finalLayers.push(element.options.urlTemplate);
+        cartoLayer = element;
       }
     });
-    this._mapconfig = cartodblayer;
-    this._layers = finalLayers;
-    return this._mapconfig;
+    return cartoLayer;
   }
 
   getLayers() {
-    return this._layers;
+    return this._config.layers;
   }
 
 }

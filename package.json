@@ -23,7 +23,7 @@
     "mocha": "3.5.3",
     "webpack": "^3.6.0",
     "yargs": "7.1.0",
-    "leaflet-headless": "latest"
+    "leaflet": "*"
   },
   "repository": {
     "type": "git",
@@ -43,5 +43,9 @@
   "bugs": {
     "url": "https://github.com/fdelgadoarrechea/carto-engine-test/issues"
   },
-  "homepage": "https://github.com/fdelgadoarrechea/carto-engine-test"
+  "homepage": "https://github.com/fdelgadoarrechea/carto-engine-test",
+  "dependencies": {
+    "canvas": "^1.6.7",
+    "leaflet-headless": "^0.2.6"
+  }
 }

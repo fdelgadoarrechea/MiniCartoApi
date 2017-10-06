@@ -29,11 +29,19 @@ export default class CartoTemplate {
   }
 
   setMapConfig(mapconfig) {
-    this._mapconfig = mapconfig;
+    this._mapconfig = {
+      'version': '1.3.1',
+      'layers': [{
+        'type': 'cartodb',
+        'options': mapconfig.options
+      }]
+    };
   }
 
   setSQL(sql) {
-    this._mapconfig.layers[0].options.sql = sql;
+    this._mapconfig.layers.forEach(function (element) {
+      element.options.sql = sql;
+    });
   }
 
   async generateTemplateURL(url) {
