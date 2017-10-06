@@ -3,35 +3,58 @@ import ConfigReader from './configreader.js';
 import CartoTemplate from './cartotemplate.js';
 import MapRenderer from './maprenderer.js';
 
-let config = new ConfigReader(mapconfig);
-
-function validateResponse(response) {
-  if (!response.ok) {
-    throw Error(response.statusText);
+class CartoTest {
+  constructor() {
+    this.config = new ConfigReader(mapconfig);
+    this.cartoLayer = '';
+    this._layers = [];
   }
-  return response;
-}
 
-function renderResult(mapsAPIresponse) {
-  let cartoLayer = new CartoTemplate(mapsAPIresponse, config.getUser());
+  async initAll() {
+    if (!this.cartoLayer) {
+      this.renderer = new MapRenderer(this.config.getCenter(), this.config.getZoom());
+      this.renderer.renderMap('mapid');
+      this.cartoLayer = new CartoTemplate(this.config.getUser());
+      this.cartoLayer.setMapConfig(this.config.getCartoLayer());
+    }
 
-  config.pushCartoLayer(cartoLayer.getTemplateURL());
-  let renderer = new MapRenderer(config.getCenter(), config.getZoom());
+    let cartoTemplateURL = await this.cartoLayer.generateTemplateURL(this.config.getURL());
 
-  renderer.renderMap('mapid');
-  renderer.renderLayers(config.getLayers());
-}
-
-function logError(error) {
-  console.log('Looks like there was a problem: \n', error);
-}
-
-fetch(config.getURL(), {
-  mode: 'cors',
-  method: 'POST',
-  body: JSON.stringify(config.getMapConfig()),
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    this.setURLLayers(this.config.getLayers(), cartoTemplateURL);
+    this.showLayers();
   }
-}).then(validateResponse).then((response) => response.json()).then(renderResult).catch(logError);
+
+  showLayers() {
+    this.renderer.renderLayers(this._layers);
+  }
+
+  setSQL(sql) {
+    this.cartoLayer.setSQL(sql);
+    this.initAll();
+  }
+
+  hideLayer(pos) {
+    this.renderer.hideLayer(pos);
+  }
+
+  showLayer(pos) {
+    this.renderer.showLayer(pos);
+  }
+
+  setURLLayers(configLayers, cartoTemplateURL) {
+    let layer;
+    let finalLayers = [];
+
+    configLayers.forEach(function (element) {
+      if (element.type === 'CartoDB') {
+        layer = cartoTemplateURL;
+      } else {
+        layer = element.options.urlTemplate;
+      }
+      finalLayers.push(layer);
+    });
+    this._layers = finalLayers;
+  }
+}
+
+module.exports = CartoTest;
