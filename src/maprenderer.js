@@ -53,9 +53,12 @@ export default class MapRenderer {
     this._layers = storedLayers;
   }
 
-  destroyLayer() {
+  destroyLayers() {
     let map = this._currentMap;
 
-    map.removeLayer(this._layer);
+    this._layers.forEach(function (element) {
+      map.removeLayer(element);
+    });
+
   }
 }

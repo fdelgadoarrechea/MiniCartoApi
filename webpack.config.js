@@ -1,5 +1,3 @@
-/* global __dirname, require, module*/
-
 const MinifyPlugin = require('babel-minify-webpack-plugin');
 const path = require('path');
 const env = require('yargs').argv.env; // use --env with webpack 2

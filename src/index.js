@@ -29,6 +29,7 @@ class CartoTest {
   }
 
   setSQL(sql) {
+    this.renderer.destroyLayers();
     this.cartoLayer.setSQL(sql);
     this.initAll();
   }
