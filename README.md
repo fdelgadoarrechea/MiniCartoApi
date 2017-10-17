@@ -1,10 +1,8 @@
-# Carto Engine Test
+# Mini Carto Api
 
-Based on Webpack library starter, a boilerplate for producing libraries (Input: ES6, Output: universal library)
+Small library that renders a map and layers with Leaflet + Carto, based on the data provided by a mapconfig.json file. It also has a little API to show/hide any of the layers and change the selected countries via Carto SQL.
 
 ## Getting started
-
-If you want to see the internals, check the `src` folder. In case you want to change or load a new mapconfig.json, put it in the `src` folder and then build the library again. Anyway, you may follow these steps to install and build the library:   
 
 1. Build the library
   * Run `npm install` to get the project's dependencies
@@ -13,10 +11,10 @@ If you want to see the internals, check the `src` folder. In case you want to ch
   * Having all the dependencies installed run `npm run dev`. This command will generate an non-minified version of the library and will run a watcher so you get the compilation on file change.
 4. Running the tests
   * Run `npm run test`
-  
+
 ## Testing the API
 
-Open index.html, hit the console and type `var carto = new CartoTest();` then: 
+Open index.html, hit the console and type `var carto = new CartoTest();` then:
 
 * `carto.initAll();` - to initialize the map and load all the layers
 * `carto.setSQL("select * from european_countries_e LIMIT 10");` - to change the SQL of the Carto layer and fetch new tiles
